@@ -1,23 +1,64 @@
-#include "Freenove_WS2812_Lib_for_ESP32.h"
-#include "Arduino.h"
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+#endif
+#define PIN        16
+#define NUMPIXELS 18
 
-#define LEDS_COUNT  8
-#define LEDS_PIN	2
-#define CHANNEL		0
-
-Freenove_ESP32_WS2812 strip = Freenove_ESP32_WS2812(LEDS_COUNT, LEDS_PIN, CHANNEL, TYPE_GRB);
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+#define DELAYVAL 1000
 
 void setup() {
-  strip.begin();
-  strip.setBrightness(20);  
+#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+#endif
+  pixels.begin();
 }
 
 void loop() {
-  for (int j = 0; j < 255; j += 2) {
-    for (int i = 0; i < LEDS_COUNT; i++) {
-      strip.setLedColorData(i, strip.Wheel((i * 256 / LEDS_COUNT + j) & 255));
-    }
-    strip.show();
-    delay(10);
-  }  
+  pixels.clear();
+
+  delay(DELAYVAL);  
+
+  for(int i=0; i<3; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+    pixels.show();
+  }
+
+  delay(DELAYVAL);
+
+  for(int i=3; i<6; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+    pixels.show();
+  }
+
+  delay(DELAYVAL);
+
+  for(int i=6; i<9; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+    pixels.show();
+  }
+
+  delay(DELAYVAL);  
+
+  for(int i=9; i<11; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+    pixels.show();
+  }
+
+  delay(DELAYVAL); 
+
+  for(int i=11; i<13; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+    pixels.show();
+  }
+
+  delay(DELAYVAL);     
+
+  for(int i=13; i<16; i++) {
+    pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+    pixels.show();
+  }
+
+  delay(DELAYVAL);      
 }
